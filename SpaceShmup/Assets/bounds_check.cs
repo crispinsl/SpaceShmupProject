@@ -14,6 +14,9 @@ public class bounds_check : MonoBehaviour
     [Header("Dynamic")]
     public float camWidth;
     public float camHeight;
+    public bool keepOnScreen = true;
+
+    public bool isOnScreen = true;
 
     void Awake()
     {
@@ -30,24 +33,35 @@ public class bounds_check : MonoBehaviour
         Vector3 pos = transform.position;
         // restrict x to the camera bounds
 
+        isOnScreen = true;
+
         if (pos.x > camWidth)
         {
             pos.x = camWidth;
+            isOnScreen = false;
         }
 
         if (pos.x < -camWidth)
         {
             pos.x = -camWidth;
+            isOnScreen = false;
         }
 
         if (pos.y > camHeight)
         {
             pos.y = camHeight;
+            isOnScreen = false;
         }
 
         if (pos.y < -camHeight)
         {
             pos.y = -camHeight;
+            isOnScreen = false;
+        }
+        if (keepOnScreen && !isOnScreen)
+        {
+            transform.position = pos;
+            isOnScreen = true;
         }
         transform.position = pos;
     }
